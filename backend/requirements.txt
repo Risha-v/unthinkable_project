@@ -1,0 +1,9 @@
+gradio==4.16.0
+flask==3.0.0
+flask-cors==4.0.0
+sentence-transformers==2.2.2
+torch==2.2.2
+torchvision==0.17.2
+pillow==10.2.0
+numpy==1.26.3
+requests==2.31.0
