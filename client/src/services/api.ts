@@ -2,7 +2,7 @@ import { Product } from "../types";
 
 // Hugging Face Spaces API URL
 // Replace YOUR_USERNAME with your actual HF username
-const API_URL = import.meta.env.VITE_API_URL || "https://coder1208-visual-product-matcher.hf.space";
+const API_URL = "https://coder1208-visual-product-matcher.hf.space";
 
 /**
  * Search for similar products using image
