@@ -14,6 +14,11 @@ import io
 import base64
 import os
 import threading
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Initialize Flask app for API endpoints
 flask_app = Flask(__name__)
@@ -156,6 +161,7 @@ def match_products():
         return response
         
     except Exception as e:
+        logger.error(f"Error in match_products: {str(e)}")
         error_response = jsonify({"error": str(e)})
         error_response.headers.add("Access-Control-Allow-Origin", "*")
         return error_response, 400
@@ -197,15 +203,12 @@ def gradio_search(image):
         return text_output, image_paths
         
     except Exception as e:
+        logger.error(f"Error in gradio_search: {str(e)}")
         return f"❌ Error: {str(e)}", []
 
 
-# Create Gradio interface
-with gr.Blocks(
-    title="🔍 Visual Product Matcher",
-    theme=gr.themes.Soft(),
-    css=".gradio-container {max-width: 1200px; margin: auto;}"
-) as gradio_interface:
+# Create Gradio interface (moved theme and css to launch method for Gradio 6.0)
+with gr.Blocks(title="🔍 Visual Product Matcher") as gradio_interface:
     
     gr.Markdown(
         """
@@ -278,7 +281,7 @@ with gr.Blocks(
         """
         ---
         
-        ### 🔌 API Access
+        ### 📌 API Access
         
         **Endpoint:** `POST /api/match`
         
@@ -304,12 +307,15 @@ with gr.Blocks(
 # ============================================================================
 
 def run_flask():
-    """Run Flask API in background thread"""
-    flask_app.run(host="0.0.0.0", port=7860)
+    """Run Flask API in background thread on port 5000"""
+    try:
+        flask_app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+    except Exception as e:
+        logger.error(f"Flask error: {str(e)}")
 
 
 if __name__ == "__main__":
-    # Start Flask API in background
+    # Start Flask API in background on port 5000
     flask_thread = threading.Thread(target=run_flask, daemon=True)
     flask_thread.start()
     
@@ -319,15 +325,16 @@ if __name__ == "__main__":
     print(f"📊 Products loaded: {len(products)}")
     print(f"🤖 Model: sentence-transformers/clip-ViT-B-32")
     print("="*60)
-    print("\n🌐 Gradio UI: Available at Space URL")
-    print("🔌 API Endpoints:")
-    print("   - GET  /api/health")
-    print("   - POST /api/match")
+    print("\n🌐 Gradio UI: Will be available at Space URL")
+    print("🔌 Flask API Endpoints (port 5000):")
+    print("   - GET  http://localhost:5000/api/health")
+    print("   - POST http://localhost:5000/api/match")
     print("="*60 + "\n")
     
-    # Launch Gradio
     gradio_interface.launch(
         server_name="0.0.0.0",
         server_port=7860,
-        share=False
+        share=False,
+        theme=gr.themes.Soft(),
+        css=".gradio-container {max-width: 1200px; margin: auto;}"
     )

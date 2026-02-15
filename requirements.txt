@@ -1,28 +1,21 @@
-# Backend Requirements - Python Dependencies
-# For Hugging Face Spaces deployment
+# Web framework
+flask
+flask-cors
 
-# Web Framework
-flask==3.0.0
-flask-cors==4.0.0
+# UI
+gradio>=4.0.0
 
-# Gradio UI
-gradio==4.16.0
+# AI / ML
+sentence-transformers>=2.6.0
+transformers>=4.37.0
+torch
+torchvision
 
-# Machine Learning & AI
-sentence-transformers==2.2.2
-torch==2.2.2
-torchvision==0.17.2
-transformers==4.36.2
+# Image processing
+pillow
 
-# Image Processing
-pillow==10.2.0
+# Data
+numpy
 
-# Data Processing
-numpy==1.26.3
-
-# HTTP Requests
-requests==2.31.0
-
-# Optional: For better performance
-# sentencepiece==0.1.99
-# tokenizers==0.15.0
+# HTTP
+requests

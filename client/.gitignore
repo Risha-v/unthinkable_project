@@ -44,8 +44,7 @@ __pycache__/
 *.so
 .Python
 venv/
-env/
-ENV/
+
 
 # Backend specific
 backend/server/
